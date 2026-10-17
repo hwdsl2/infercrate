@@ -1,10 +1,10 @@
-[English](README.md) | [简体中文](README-zh.md) | [繁體中文](README-zh-Hant.md) | [Русский](README-ru.md)
+[English](../README.md) | [简体中文](README-zh.md) | [繁體中文](README-zh-Hant.md) | [Русский](README-ru.md)
 
 # InferCrate
 
 **Локальный LLM-сервер с открытым исходным кодом для самостоятельного размещения.**
 
-[![Статус сборки](https://github.com/hwdsl2/infercrate/actions/workflows/main.yml/badge.svg)](https://github.com/hwdsl2/infercrate/actions/workflows/main.yml) &nbsp;[![Docker Pulls](https://raw.githubusercontent.com/hwdsl2/badges/main/img/docker-pulls-ollama-server.svg)](https://hub.docker.com/r/hwdsl2/ollama-server) &nbsp;[![Лицензия: MIT](docs/images/license.svg)](https://opensource.org/licenses/MIT)
+[![Статус сборки](https://github.com/hwdsl2/infercrate/actions/workflows/main.yml/badge.svg)](https://github.com/hwdsl2/infercrate/actions/workflows/main.yml) &nbsp;[![Docker Pulls](https://raw.githubusercontent.com/hwdsl2/badges/main/img/docker-pulls-ollama-server.svg)](https://hub.docker.com/r/hwdsl2/ollama-server) &nbsp;[![Лицензия: MIT](images/license.svg)](https://opensource.org/licenses/MIT)
 
 Запускайте локальные языковые модели на своём оборудовании с InferCrate. Сервер работает на базе [Ollama](https://github.com/ollama/ollama) и предоставляет нативный API Ollama и совместимое с OpenAI подмножество API `/v1`, с аутентификацией по API-ключу, управлением моделями и развёртыванием на CPU или GPU NVIDIA.
 
@@ -20,13 +20,13 @@
 - **Лёгкий образ для CPU:** на базе Debian Trixie (slim); размер образа около 75 МБ.
 - **Автоматическая сборка:** образы автоматически собираются и публикуются через [GitHub Actions](https://github.com/hwdsl2/infercrate/actions).
 
-Также доступен в составе [Self-Hosted AI Stack](https://github.com/hwdsl2/self-hosted-ai-stack/blob/main/README-ru.md), который развёртывает полный AI-стек на собственном сервере одной командой.
+Также доступен в составе [Self-Hosted AI Stack](https://github.com/hwdsl2/self-hosted-ai-stack/blob/main/docs/README-ru.md), который развёртывает полный AI-стек на собственном сервере одной командой.
 
 > 📘 [The Self-Hosted AI Builder’s Guide](https://books2read.com/aiguide?store=amazon): практическое руководство по созданию, защите и эксплуатации собственного приватного ИИ-стека.
 
 **Также доступно:**
 
-- Связанные AI-сервисы: [ScribeCrate](https://github.com/hwdsl2/scribecrate/blob/main/README-ru.md), [SpeakCrate](https://github.com/hwdsl2/speakcrate/blob/main/README-ru.md), [EmbedCrate](https://github.com/hwdsl2/embedcrate/blob/main/README-ru.md), [GatewayCrate](https://github.com/hwdsl2/gatewaycrate/blob/main/README-ru.md), [ParseCrate](https://github.com/hwdsl2/parsecrate/blob/main/README-ru.md), [UplinkCrate](https://github.com/hwdsl2/uplinkcrate/blob/main/README-ru.md)
+- Связанные AI-сервисы: [ScribeCrate](https://github.com/hwdsl2/scribecrate/blob/main/docs/README-ru.md), [SpeakCrate](https://github.com/hwdsl2/speakcrate/blob/main/docs/README-ru.md), [EmbedCrate](https://github.com/hwdsl2/embedcrate/blob/main/docs/README-ru.md), [GatewayCrate](https://github.com/hwdsl2/gatewaycrate/blob/main/docs/README-ru.md), [ParseCrate](https://github.com/hwdsl2/parsecrate/blob/main/docs/README-ru.md), [UplinkCrate](https://github.com/hwdsl2/uplinkcrate/blob/main/docs/README-ru.md)
 
 ## Быстрый старт
 
@@ -113,9 +113,9 @@ curl http://localhost:11434/api/chat \
 
 - [Setup IPsec VPN](https://github.com/hwdsl2/setup-ipsec-vpn/blob/master/README-ru.md)
 - [IPsec VPN на Docker](https://github.com/hwdsl2/docker-ipsec-vpn-server/blob/master/README-ru.md)
-- [WireGuard](https://github.com/hwdsl2/docker-wireguard/blob/main/README-ru.md)
-- [OpenVPN](https://github.com/hwdsl2/docker-openvpn/blob/main/README-ru.md)
-- [Headscale](https://github.com/hwdsl2/docker-headscale/blob/main/README-ru.md)
+- [WireGuard](https://github.com/hwdsl2/docker-wireguard/blob/main/docs/README-ru.md)
+- [OpenVPN](https://github.com/hwdsl2/docker-openvpn/blob/main/docs/README-ru.md)
+- [Headscale](https://github.com/hwdsl2/docker-headscale/blob/main/docs/README-ru.md)
 
 </details>
 
@@ -160,7 +160,7 @@ docker image tag quay.io/hwdsl2/ollama-server hwdsl2/ollama-server
 
 Все переменные являются необязательными. Если они не установлены, автоматически используются безопасные значения по умолчанию.
 
-Этот Docker-образ использует следующие переменные, которые можно объявить в файле `env` (см. [пример](ollama.env.example)):
+Этот Docker-образ использует следующие переменные, которые можно объявить в файле `env` (см. [пример](../ollama.env.example)):
 
 | Переменная | Описание | По умолчанию |
 |---|---|---|
@@ -420,7 +420,7 @@ docker rm -f ollama
 
 Ollama можно использовать как локальную службу LLM в более широком self-hosted AI-стеке.
 
-Готовые полные и облегчённые стеки Docker Compose, примеры ручного запуска через `docker run`, а также примеры голосовых, RAG- и MCP-конвейеров с SpeakCrate, EmbedCrate, GatewayCrate, InferCrate, ParseCrate и UplinkCrate см. в [Self-Hosted AI Stack](https://github.com/hwdsl2/self-hosted-ai-stack/blob/main/README-ru.md).
+Готовые полные и облегчённые стеки Docker Compose, примеры ручного запуска через `docker run`, а также примеры голосовых, RAG- и MCP-конвейеров с SpeakCrate, EmbedCrate, GatewayCrate, InferCrate, ParseCrate и UplinkCrate см. в [Self-Hosted AI Stack](https://github.com/hwdsl2/self-hosted-ai-stack/blob/main/docs/README-ru.md).
 
 **Подключите Ollama к LiteLLM:**
 

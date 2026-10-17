@@ -1,10 +1,10 @@
-[English](README.md) | [简体中文](README-zh.md) | [繁體中文](README-zh-Hant.md) | [Русский](README-ru.md)
+[English](../README.md) | [简体中文](README-zh.md) | [繁體中文](README-zh-Hant.md) | [Русский](README-ru.md)
 
 # InferCrate
 
 **开源、自托管的本地大语言模型服务器。**
 
-[![构建状态](https://github.com/hwdsl2/infercrate/actions/workflows/main.yml/badge.svg)](https://github.com/hwdsl2/infercrate/actions/workflows/main.yml) &nbsp;[![Docker Pulls](https://raw.githubusercontent.com/hwdsl2/badges/main/img/docker-pulls-ollama-server.svg)](https://hub.docker.com/r/hwdsl2/ollama-server) &nbsp;[![授权协议: MIT](docs/images/license.svg)](https://opensource.org/licenses/MIT)
+[![构建状态](https://github.com/hwdsl2/infercrate/actions/workflows/main.yml/badge.svg)](https://github.com/hwdsl2/infercrate/actions/workflows/main.yml) &nbsp;[![Docker Pulls](https://raw.githubusercontent.com/hwdsl2/badges/main/img/docker-pulls-ollama-server.svg)](https://hub.docker.com/r/hwdsl2/ollama-server) &nbsp;[![授权协议: MIT](images/license.svg)](https://opensource.org/licenses/MIT)
 
 使用 InferCrate 在自己的硬件上运行本地语言模型。由 [Ollama](https://github.com/ollama/ollama) 驱动，提供原生 Ollama API 和 OpenAI 兼容的 `/v1` API 子集，支持 API 密钥身份验证、模型管理，以及 CPU 或 NVIDIA GPU 部署。
 
@@ -20,13 +20,13 @@
 - **轻量级 CPU 镜像：** 基于 Debian Trixie（slim），镜像大小约为 75 MB。
 - **自动构建：** 通过 [GitHub Actions](https://github.com/hwdsl2/infercrate/actions) 自动构建和发布
 
-也可作为 [Self-Hosted AI Stack](https://github.com/hwdsl2/self-hosted-ai-stack/blob/main/README-zh.md) 的一部分使用，一条命令即可部署完整的自托管 AI 技术栈。
+也可作为 [Self-Hosted AI Stack](https://github.com/hwdsl2/self-hosted-ai-stack/blob/main/docs/README-zh.md) 的一部分使用，一条命令即可部署完整的自托管 AI 技术栈。
 
 > 📘 [The Self-Hosted AI Builder’s Guide](https://books2read.com/aiguide?store=amazon) 是一本关于构建、保护和运维自己的私有 AI 技术栈的实用指南。
 
 **另提供：**
 
-- 相关 AI 服务：[ScribeCrate](https://github.com/hwdsl2/scribecrate/blob/main/README-zh.md)、[SpeakCrate](https://github.com/hwdsl2/speakcrate/blob/main/README-zh.md)、[EmbedCrate](https://github.com/hwdsl2/embedcrate/blob/main/README-zh.md)、[GatewayCrate](https://github.com/hwdsl2/gatewaycrate/blob/main/README-zh.md)、[ParseCrate](https://github.com/hwdsl2/parsecrate/blob/main/README-zh.md)、[UplinkCrate](https://github.com/hwdsl2/uplinkcrate/blob/main/README-zh.md)
+- 相关 AI 服务：[ScribeCrate](https://github.com/hwdsl2/scribecrate/blob/main/docs/README-zh.md)、[SpeakCrate](https://github.com/hwdsl2/speakcrate/blob/main/docs/README-zh.md)、[EmbedCrate](https://github.com/hwdsl2/embedcrate/blob/main/docs/README-zh.md)、[GatewayCrate](https://github.com/hwdsl2/gatewaycrate/blob/main/docs/README-zh.md)、[ParseCrate](https://github.com/hwdsl2/parsecrate/blob/main/docs/README-zh.md)、[UplinkCrate](https://github.com/hwdsl2/uplinkcrate/blob/main/docs/README-zh.md)
 
 ## 快速开始
 
@@ -113,9 +113,9 @@ curl http://localhost:11434/api/chat \
 
 - [Setup IPsec VPN](https://github.com/hwdsl2/setup-ipsec-vpn/blob/master/README-zh.md)
 - [Docker 上的 IPsec VPN](https://github.com/hwdsl2/docker-ipsec-vpn-server/blob/master/README-zh.md)
-- [WireGuard](https://github.com/hwdsl2/docker-wireguard/blob/main/README-zh.md)
-- [OpenVPN](https://github.com/hwdsl2/docker-openvpn/blob/main/README-zh.md)
-- [Headscale](https://github.com/hwdsl2/docker-headscale/blob/main/README-zh.md)
+- [WireGuard](https://github.com/hwdsl2/docker-wireguard/blob/main/docs/README-zh.md)
+- [OpenVPN](https://github.com/hwdsl2/docker-openvpn/blob/main/docs/README-zh.md)
+- [Headscale](https://github.com/hwdsl2/docker-headscale/blob/main/docs/README-zh.md)
 
 </details>
 
@@ -160,7 +160,7 @@ docker image tag quay.io/hwdsl2/ollama-server hwdsl2/ollama-server
 
 所有变量均为可选。如果未设置，将自动使用安全默认值。
 
-此 Docker 镜像使用以下变量，可在 `env` 文件中声明（参见[示例](ollama.env.example)）：
+此 Docker 镜像使用以下变量，可在 `env` 文件中声明（参见[示例](../ollama.env.example)）：
 
 | 变量 | 说明 | 默认值 |
 |---|---|---|
@@ -420,7 +420,7 @@ docker rm -f ollama
 
 Ollama 可作为更广泛的自托管 AI 设置中的本地 LLM 服务。
 
-如需完整和轻量级 Docker Compose 技术栈、手动 `docker run` 示例，以及结合 SpeakCrate、EmbedCrate、GatewayCrate、InferCrate、ParseCrate 和 UplinkCrate 的语音/RAG/MCP 流水线示例，请参阅 [Self-Hosted AI Stack](https://github.com/hwdsl2/self-hosted-ai-stack/blob/main/README-zh.md)。
+如需完整和轻量级 Docker Compose 技术栈、手动 `docker run` 示例，以及结合 SpeakCrate、EmbedCrate、GatewayCrate、InferCrate、ParseCrate 和 UplinkCrate 的语音/RAG/MCP 流水线示例，请参阅 [Self-Hosted AI Stack](https://github.com/hwdsl2/self-hosted-ai-stack/blob/main/docs/README-zh.md)。
 
 **将 Ollama 连接到 LiteLLM：**
 
