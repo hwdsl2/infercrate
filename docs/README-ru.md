@@ -17,7 +17,7 @@
 - **Предварительная загрузка моделей:** Предварительная загрузка моделей при первом запуске через переменную `OLLAMA_MODELS`
 - **Управление моделями:** через вспомогательный скрипт (`ollama_manage`)
 - **Поддержка CPU и GPU:** работа на CPU или ускорение на GPU NVIDIA с образом `:cuda`.
-- **Лёгкий образ для CPU:** на базе Debian Trixie (slim); размер образа около 75 МБ.
+- **Лёгкий образ для CPU:** на базе Debian Trixie (slim); размер образа около 80 МБ.
 - **Автоматическая сборка:** образы автоматически собираются и публикуются через [GitHub Actions](https://github.com/hwdsl2/infercrate/actions).
 
 Также доступен в составе [Self-Hosted AI Stack](https://github.com/hwdsl2/self-hosted-ai-stack/blob/main/docs/README-ru.md), который развёртывает полный AI-стек на собственном сервере одной командой.
@@ -440,7 +440,7 @@ docker exec litellm litellm_manage \
 ## Технические подробности
 
 - Базовый образ: `debian:trixie-slim` для `:latest`; `nvidia/cuda` для `:cuda`
-- Размер образа: ~75 МБ (CPU) / ~1.7 ГБ (CUDA)
+- Размер образа: ~80 МБ (CPU) / ~1.8 ГБ (CUDA)
 - Ollama: последняя версия, установлена как статический бинарный файл
 - Прокси аутентификации: [Caddy](https://caddyserver.com) (всегда активен, обеспечивает аутентификацию Bearer Token)
 - Каталог данных: `/var/lib/ollama` (Docker-том)

@@ -17,7 +17,7 @@
 - **預先拉取模型：** 透過 `OLLAMA_MODELS` 環境變數在首次啟動時預先拉取模型
 - **模型管理：** 透過輔助腳本（`ollama_manage`）管理模型
 - **CPU 與 GPU 支援：** 可在 CPU 上執行，或使用 `:cuda` 映像啟用 NVIDIA GPU 加速。
-- **輕量級 CPU 映像：** 基於 Debian Trixie（slim），映像大小約為 75 MB。
+- **輕量級 CPU 映像：** 基於 Debian Trixie（slim），映像大小約為 80 MB。
 - **自動建置：** 透過 [GitHub Actions](https://github.com/hwdsl2/infercrate/actions) 自動建置和發布
 
 也可作為 [Self-Hosted AI Stack](https://github.com/hwdsl2/self-hosted-ai-stack/blob/main/docs/README-zh-Hant.md) 的一部分使用，一條命令即可部署完整的自託管 AI 技術堆疊。
@@ -440,7 +440,7 @@ docker exec litellm litellm_manage \
 ## 技術細節
 
 - 基礎映像：`:latest` 使用 `debian:trixie-slim`；`:cuda` 使用 `nvidia/cuda`
-- 映像大小：約 75MB（CPU）/ 約 1.7GB（CUDA）
+- 映像大小：約 80MB（CPU）/ 約 1.8GB（CUDA）
 - Ollama：最新版本，以靜態二進位檔案安裝
 - 驗證代理：[Caddy](https://caddyserver.com)（始終啟用，強制執行 Bearer Token 驗證）
 - 資料目錄：`/var/lib/ollama`（Docker 卷）
