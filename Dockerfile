@@ -27,13 +27,20 @@ RUN set -x \
     && rm -f /tmp/ollama.tar.zst \
     && find /usr/local/lib/ollama -mindepth 1 -maxdepth 1 -type d \
          ! -name 'cpu*' -exec rm -rf {} + \
-    && CADDY_VER=$(curl -fsSL "https://api.github.com/repos/caddyserver/caddy/releases/latest" \
-         | jq -r '.tag_name' | tr -d 'v') \
-    && curl -fsSL "https://github.com/caddyserver/caddy/releases/download/v${CADDY_VER}/caddy_${CADDY_VER}_linux_${ARCH_LABEL}.tar.gz" \
+    && CADDY_VER=$(curl -fsSL --connect-timeout 15 --max-time 60 \
+         "https://api.github.com/repos/caddyserver/caddy/releases/latest" \
+         | jq -er '.tag_name | ltrimstr("v")') \
+    && printf '%s\n' "$CADDY_VER" | grep -Eq '^[0-9]+\.[0-9]+\.[0-9]+$' \
+    && curl -fsSL --connect-timeout 15 --max-time 120 "https://github.com/caddyserver/caddy/releases/download/v${CADDY_VER}/caddy_${CADDY_VER}_linux_${ARCH_LABEL}.tar.gz" \
          -o /tmp/caddy.tar.gz \
+    && curl -fsSL --connect-timeout 15 --max-time 60 "https://github.com/caddyserver/caddy/releases/download/v${CADDY_VER}/caddy_${CADDY_VER}_checksums.txt" \
+         -o /tmp/caddy-checksums.txt \
+    && CADDY_SHA512=$(awk -v archive="caddy_${CADDY_VER}_linux_${ARCH_LABEL}.tar.gz" \
+         '$2 == archive { hash = $1; count++ } END { if (count != 1 || length(hash) != 128 || hash !~ /^[0-9a-f]+$/) exit 1; print hash }' /tmp/caddy-checksums.txt) \
+    && printf '%s  %s\n' "$CADDY_SHA512" /tmp/caddy.tar.gz | sha512sum -c - \
     && tar -xzf /tmp/caddy.tar.gz -C /usr/local/bin caddy \
     && chmod 755 /usr/local/bin/caddy \
-    && rm -f /tmp/caddy.tar.gz \
+    && rm -f /tmp/caddy.tar.gz /tmp/caddy-checksums.txt \
     && apt-get purge -y jq zstd \
     && apt-get autoremove -y \
     && rm -rf /var/lib/apt/lists/* \
