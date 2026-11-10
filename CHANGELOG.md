@@ -2,6 +2,13 @@
 
 Notable changes to InferCrate are documented here.
 
+## 2026-11-10
+
+### Changed
+
+- Verify Caddy release checksums before extraction in CPU and CUDA builds
+  while retaining latest-release discovery.
+
 ## 2026-10-24
 
 Release: `2026.10.1`
