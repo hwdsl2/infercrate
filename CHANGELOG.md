@@ -2,6 +2,17 @@
 
 Notable changes to InferCrate are documented here.
 
+## 2026-11-15
+
+### Added
+
+- Accept mounted secret files through `OLLAMA_API_KEY_FILE` with explicit source-conflict and file validation.
+
+### Compatibility
+
+- Rotation applies at startup. Existing direct/generated credentials and volumes remain supported; older images require an older supported credential source.
+- Existing persisted/shared credentials and upstream settings remain in use; file inputs do not automatically rotate saved secondary credentials.
+
 ## 2026-11-10
 
 ### Changed
