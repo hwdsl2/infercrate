@@ -61,6 +61,10 @@ check_container() {
 }
 
 load_config() {
+  # Exec retains the container env even if the mounted startup env unset it.
+  if [ -f "${API_KEY_FILE}.file-source" ]; then
+    OLLAMA_API_KEY=$(cat "$API_KEY_FILE") || exiterr "Cannot read the active API key."
+  fi
   if [ -z "$OLLAMA_PORT" ]; then
     if [ -f "$PORT_FILE" ]; then
       OLLAMA_PORT=$(cat "$PORT_FILE")

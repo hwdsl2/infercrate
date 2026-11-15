@@ -60,9 +60,67 @@ if [ ! -f "/.dockerenv" ] && [ ! -f "/run/.containerenv" ] \
   exiterr "This script ONLY runs in a container (e.g. Docker, Podman)."
 fi
 
+# Resolve explicit external inputs before normalization or persistent writes.
+# Begin secret-file helpers
+# Optional external inputs only. Legacy saved-key readers remain in the caller.
+
+secret_error() { printf 'Error: %s\n' "$1" >&2; exit 1; }
+
+secret_resolve() {
+  local name="$1" kind="$2" file_name="${1}_FILE" path value LC_ALL=C header_pattern='^[ -~]+$'
+  printf -v "${name}_FROM_FILE" '%s' ''
+  [[ ${!file_name+x} ]] || return 0
+  [[ ! ${!name+x} ]] || secret_error "$file_name conflicts with $name (even when empty)."
+  path=${!file_name}
+  [[ -n "$path" ]] || secret_error "$file_name must name a nonempty file path."
+  [[ -f "$path" && -r "$path" && -s "$path" ]] \
+    || secret_error "$file_name must name a readable, nonempty regular file."
+  # read retains terminal newlines; a successful NUL-delimited read detects NUL
+  # before Bash can silently discard it. Never source or evaluate secret bytes.
+  if IFS= read -r -d '' value < "$path"; then
+    secret_error "$file_name contains a NUL byte."
+  fi
+  while [[ "$value" == *$'\n' ]]; do
+    value=${value%$'\n'}
+    value=${value%$'\r'}
+  done
+  [[ -n "$value" && "$value" != *[[:cntrl:]]* ]] \
+    || secret_error "$file_name must contain one nonempty line without control characters."
+  # Bearer transports use RFC 6750 b64token; passwords and URLs are text.
+  if [[ "$kind" == bearer && ! "$value" =~ ^[A-Za-z0-9._~+/-]+=*$ ]]; then
+    secret_error "$file_name must contain a single HTTP bearer token."
+  fi
+  if [[ "$kind" == header && ( ! "$value" =~ $header_pattern || "$value" == ' '* || "$value" == *' ' ) ]]; then
+    secret_error "$file_name must contain ASCII header data without leading or trailing spaces."
+  fi
+  printf -v "$name" '%s' "$value"
+  printf -v "${name}_FROM_FILE" '%s' 1
+  export "${name?}"
+}
+
+# Record source selection only; the primary key already uses its legacy file.
+secret_record_source() {
+  local marker="$1" enabled="$2" temporary
+  if [[ "$enabled" != 1 ]]; then
+    rm -f -- "$marker" || secret_error "Cannot clear credential source marker."
+    return 0
+  fi
+  [[ ! -d "$marker" ]] || secret_error "Credential source marker must be a file."
+  temporary=$(mktemp "${marker}.XXXXXX") || secret_error "Cannot prepare credential source marker."
+  if ! printf '%s' 1 > "$temporary" || ! mv -f -- "$temporary" "$marker"; then
+    rm -f -- "$temporary"
+    secret_error "Cannot record credential source."
+  fi
+}
+# End secret-file helpers
+
+secret_resolve OLLAMA_API_KEY bearer
+
 # Read and sanitize environment variables
-OLLAMA_API_KEY=$(nospaces "$OLLAMA_API_KEY")
-OLLAMA_API_KEY=$(noquotes "$OLLAMA_API_KEY")
+if [ "${OLLAMA_API_KEY_FROM_FILE:-}" != 1 ]; then
+  OLLAMA_API_KEY=$(nospaces "$OLLAMA_API_KEY")
+  OLLAMA_API_KEY=$(noquotes "$OLLAMA_API_KEY")
+fi
 OLLAMA_PORT=$(nospaces "$OLLAMA_PORT")
 OLLAMA_PORT=$(noquotes "$OLLAMA_PORT")
 OLLAMA_HOST=$(nospaces "$OLLAMA_HOST")
@@ -214,6 +272,8 @@ else
     chmod 600 "$API_KEY_FILE"
   fi
 fi
+
+secret_record_source "${API_KEY_FILE}.file-source" "${OLLAMA_API_KEY_FROM_FILE:-}"
 
 # Save port for use by ollama_manage
 printf '%s' "$OLLAMA_PORT" > "$PORT_FILE"
